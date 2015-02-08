@@ -1,22 +1,27 @@
 """Twitter search
 
 Usage:
-  twitter_search.py [--track=<tr>] [--locations=<ls>]
+  twitter_search.py [--q=<q>] [--geocode=<g>]
   twitter_search.py (-h | --help)
   twitter_search.py --version
 
 Options:
-  -h --help         Show this screen
-  --version         Show version
-  --track=<tr>      The keyword to be filtered
-                    For example: --track=bar,restaurant
-  --locations=<ls>  The locations to be filtered
-                    For example: --locations=[-122.75,36.8,-121.75,37.8]
+  -h --help      Show this screen
+  --version      Show version
+  --q=<q>        The query
+                 For example: --q=bar
+                 Multiple search terms: --q="bar restaurant"
+                 For details see https://dev.twitter.com/rest/public/search
+                   the "Query operators" block
+  --geocode=<g>  The locations to be filtered
+                 For example: --geocode=37.781157,-122.398720,1mi
+                 For details see https://dev.twitter.com/rest/reference/get/search/tweets
+                   the "Parameters / geocode" block
 """
 
-from modules.args import get_args
+from modules.args import get_args_search
 from modules.twitter import search
 
 
-track, locations = get_args(__doc__, "Twitter search 0.1")
-search(track, locations)
+q, geocode = get_args_search(__doc__, "Twitter search 0.1")
+search(q, geocode)

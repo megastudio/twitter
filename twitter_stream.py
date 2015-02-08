@@ -14,9 +14,9 @@ Options:
                     For example: --locations=[-122.75,36.8,-121.75,37.8]
 """
 
-from modules.args import get_args
+from modules.args import get_args_stream
 from modules.twitter import listen_to
 
 
-track, locations = get_args(__doc__, "Twitter stream listener 0.1")
+track, locations = get_args_stream(__doc__, "Twitter stream listener 0.1")
 listen_to(track, locations)

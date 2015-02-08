@@ -50,10 +50,10 @@ def listen_to(track=None, locations=None):
     stream.filter(track=track, locations=locations)
 
 
-def search(track=None, locations=None):
+def search(q=None, geocode=None):
     auth = connect()
     api = tweepy.API(auth)
-    results = api.search(q="Mice")
+    results = api.search(q=q, geocode=geocode)
 
     for result in results:
         d = result._json

@@ -20,9 +20,9 @@ import sys
 import docopt
 import tweepy
 
-from log import log
+from modules.log import log
+from modules import database
 import config
-import database
 
 
 class Listener(tweepy.streaming.StreamListener):

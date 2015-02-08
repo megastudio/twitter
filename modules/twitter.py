@@ -14,7 +14,7 @@ class Listener(tweepy.streaming.StreamListener):
         d = json.loads(data)
 
         if 'text' in d:
-            process_tweet(d)
+            process_tweet(d, from_stream=True)
 
         return True
 
@@ -30,19 +30,37 @@ class Listener(tweepy.streaming.StreamListener):
             return False
 
 
-def process_tweet(d):
+def process_tweet(d, from_stream):
     text = d['text']
-    stamp = datetime.datetime.fromtimestamp(int(d['timestamp_ms']) / 1000)
+    stamp = datetime.datetime.strptime(d['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
     user_id = d['user']['id']
 
     log("")
     log("Tweet from user #{} at {}".format(user_id, stamp))
     log(text.encode('utf-8'))
 
-    database.add_tweet(stamp, user_id, text, from_stream=True)
+    database.add_tweet(stamp, user_id, text, from_stream=from_stream)
 
 
 def listen_to(track=None, locations=None):
+    auth = connect()
+
+    log("Initializing streaming API...")
+    stream = tweepy.Stream(auth, Listener())
+    stream.filter(track=track, locations=locations)
+
+
+def search(track=None, locations=None):
+    auth = connect()
+    api = tweepy.API(auth)
+    results = api.search(q="Mice")
+
+    for result in results:
+        d = result._json
+        process_tweet(d, from_stream=False)
+
+
+def connect():
     log("Connecting to Twitter...")
     auth = tweepy.OAuthHandler(
         config.TW_CONSUMER_KEY,
@@ -52,7 +70,4 @@ def listen_to(track=None, locations=None):
         config.TW_ACCESS_TOKEN,
         config.TW_ACCESS_TOKEN_SECRET
         )
-
-    log("Initializing streaming API...")
-    stream = tweepy.Stream(auth, Listener())
-    stream.filter(track=track, locations=locations)
+    return auth

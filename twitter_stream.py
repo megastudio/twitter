@@ -20,10 +20,9 @@ import sys
 import docopt
 import tweepy
 
+from log import log
 import config
-
-
-LOG_PATH = 'twitter_stream.log'
+import database
 
 
 class Listener(tweepy.streaming.StreamListener):
@@ -31,13 +30,8 @@ class Listener(tweepy.streaming.StreamListener):
     def on_data(self, data):
         d = json.loads(data)
 
-        text = d['text']
-        stamp = datetime.datetime.fromtimestamp(int(d['timestamp_ms']) / 1000)
-        user_id = d['user']['id']
-
-        log("")
-        log("Tweet from user #{} at {}".format(user_id, stamp))
-        log(text.encode('utf-8'))
+        if 'text' in d:
+            process_tweet(d)
 
         return True
 
@@ -49,6 +43,18 @@ class Listener(tweepy.streaming.StreamListener):
             log("For details see https://dev.twitter.com/streaming/overview/connecting")
             log("")
             return False
+
+
+def process_tweet(d):
+    text = d['text']
+    stamp = datetime.datetime.fromtimestamp(int(d['timestamp_ms']) / 1000)
+    user_id = d['user']['id']
+
+    log("")
+    log("Tweet from user #{} at {}".format(user_id, stamp))
+    log(text.encode('utf-8'))
+
+    database.add_tweet(stamp, user_id, text)
 
 
 def get_args():
@@ -86,14 +92,6 @@ def listen_to(track=None, locations=None):
     log("Initializing streaming API...")
     stream = tweepy.Stream(auth, Listener())
     stream.filter(track=track, locations=locations)
-
-
-def log(text):
-    print text
-
-    now = datetime.datetime.now()
-    with open(LOG_PATH, 'a') as f:
-        f.write('{} - {}\n'.format(now, text))
 
 
 track, locations = get_args()

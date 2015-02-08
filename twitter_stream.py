@@ -54,7 +54,7 @@ def process_tweet(d):
     log("Tweet from user #{} at {}".format(user_id, stamp))
     log(text.encode('utf-8'))
 
-    database.add_tweet(stamp, user_id, text)
+    database.add_tweet(stamp, user_id, text, from_stream=True)
 
 
 def get_args():

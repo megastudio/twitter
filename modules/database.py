@@ -1,7 +1,7 @@
 import os
 
 from sqlalchemy import create_engine
-from sqlalchemy import Column, DateTime, Integer, String
+from sqlalchemy import Boolean, Column, DateTime, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -23,6 +23,7 @@ class Tweet(Base):
     stamp = Column(DateTime)
     user_id = Column(Integer)
     text = Column(String)
+    from_stream = Column(Boolean)
 
 
 def init_session():
@@ -35,11 +36,12 @@ def init_session():
     return session
 
 
-def add_tweet(stamp, user_id, text):
+def add_tweet(stamp, user_id, text, from_stream):
     tweet = Tweet(
         stamp=stamp,
         user_id=user_id,
-        text=text
+        text=text,
+        from_stream=from_stream
         )
     session.add(tweet)
     session.commit()

@@ -40,8 +40,10 @@ class Listener(tweepy.streaming.StreamListener):
         log("Error code: {}".format(code))
 
         if code == 420:
-            log("Connecion failed, please wait at least 1 minute before restarting the process")
-            log("For details see https://dev.twitter.com/streaming/overview/connecting")
+            log("Connecion failed,"
+                " please wait at least 1 minute before restarting the process")
+            log("For details see"
+                " https://dev.twitter.com/streaming/overview/connecting")
             log("")
             return False
 
@@ -87,8 +89,14 @@ def get_args():
 
 def listen_to(track=None, locations=None):
     log("Connecting to Twitter...")
-    auth = tweepy.OAuthHandler(config.TW_CONSUMER_KEY, config.TW_CONSUMER_SECRET)
-    auth.set_access_token(config.TW_ACCESS_TOKEN, config.TW_ACCESS_TOKEN_SECRET)
+    auth = tweepy.OAuthHandler(
+        config.TW_CONSUMER_KEY,
+        config.TW_CONSUMER_SECRET
+        )
+    auth.set_access_token(
+        config.TW_ACCESS_TOKEN,
+        config.TW_ACCESS_TOKEN_SECRET
+        )
 
     log("Initializing streaming API...")
     stream = tweepy.Stream(auth, Listener())

@@ -8,9 +8,10 @@ Usage:
 Options:
   -h --help         Show this screen
   --version         Show version
-  --track=<tr>      The keyword to be filtered, for example: --track=bar,restaurant
-  --locations=<ls>  The locations to be filtered, for example: --locations=[-122.75,36.8,-121.75,37.8]
-
+  --track=<tr>      The keyword to be filtered
+                    For example: --track=bar,restaurant
+  --locations=<ls>  The locations to be filtered
+                    For example: --locations=[-122.75,36.8,-121.75,37.8]
 """
 
 import datetime

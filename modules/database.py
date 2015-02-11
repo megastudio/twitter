@@ -1,9 +1,10 @@
 import os
 
 from sqlalchemy import create_engine
-from sqlalchemy import Boolean, Column, DateTime, Integer, String
+from sqlalchemy import Boolean, Column, DateTime, Index, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+import sqlalchemy
 
 
 DB_FOLDER = 'db'
@@ -32,6 +33,13 @@ def init_session():
 
     if not os.path.exists(DB_PATH):
         Base.metadata.create_all(engine)
+
+    # try to create index, do nothing if the index already exists
+    index = Index('index_tweet_tweet_id', Tweet.tweet_id)
+    try:
+        index.create(engine)
+    except sqlalchemy.exc.OperationalError:
+        pass
 
     session = sessionmaker(bind=engine)()
     return session

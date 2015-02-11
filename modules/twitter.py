@@ -31,6 +31,7 @@ class Listener(tweepy.streaming.StreamListener):
 
 
 def process_tweet(d, from_stream):
+    tweet_id = d['id']
     text = d['text']
     stamp = datetime.datetime.strptime(d['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
     user_id = d['user']['id']
@@ -39,7 +40,7 @@ def process_tweet(d, from_stream):
     log("Tweet from user #{} at {}".format(user_id, stamp))
     log(text.encode('utf-8'))
 
-    database.add_tweet(stamp, user_id, text, from_stream=from_stream)
+    database.add_tweet(stamp, tweet_id, user_id, text, from_stream=from_stream)
 
 
 def listen_to(track=None, locations=None):

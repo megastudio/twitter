@@ -22,12 +22,26 @@ TW_ACCESS_TOKEN_SECRET = '<Access Token Secret>'
 ```
 
 
-### Installation
+### Installation on Ubuntu
 
-You need to install the required Python modules by running:
+Install git and pip:
 
 ```
-pip install -r requirements.txt
+sudo apt-get update
+sudo apt-get install git python-pip
+```
+
+Clone repository:
+
+```
+git clone https://github.com/megastudio/twitter.git
+```
+
+Install required Python modules:
+
+```
+cd twitter
+sudo pip install -r requirements.txt
 ```
 
 

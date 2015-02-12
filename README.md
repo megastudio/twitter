@@ -24,11 +24,18 @@ TW_ACCESS_TOKEN_SECRET = '<Access Token Secret>'
 
 ### Installation on Ubuntu
 
-Install git and pip:
+Install git:
 
 ```
 sudo apt-get update
-sudo apt-get install git python-pip
+sudo apt-get install git
+```
+
+Install Pip (Ubuntu version has a bug):
+```
+wget https://bootstrap.pypa.io/get-pip.py
+sudo python get-pip.py
+rm get-pip.py
 ```
 
 Clone repository:

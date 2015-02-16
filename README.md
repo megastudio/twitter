@@ -11,7 +11,7 @@ The process is:
 - write somethig to the "name" and "description", it can be anything
 - write anything to "website", it doesn't matter, can be https://twitter.com for example
 - select the "Keys and Access Tokens" tab
-- click on "Generate access token" button
+- click on "Create my access token" button
 - create a file called `config.py` next to the `twitter_stream.py` file:
 
 ```

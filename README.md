@@ -1,4 +1,3 @@
-
 ### Installation on Ubuntu
 
 Install git:

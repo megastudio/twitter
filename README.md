@@ -30,5 +30,5 @@ sudo pip install -r requirements.txt
 
 ### Running the scripts
 
-First you [have to obtain login tokens](docs/tokens.md).
-For the parameters of the scripts see the [details](docs/scripts.md).
+First you [have to obtain login tokens](doc/tokens.md).
+For the parameters of the scripts see the [details](doc/scripts.md).

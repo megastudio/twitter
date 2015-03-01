@@ -1,3 +1,7 @@
+"""
+Calling Twitter API with the help of tweepy
+"""
+
 import datetime
 import json
 
@@ -9,8 +13,14 @@ import config
 
 
 class Listener(tweepy.streaming.StreamListener):
+    """
+    The listener for getting notification about new tweets
+    """
 
     def on_data(self, data):
+        """
+        Called by Twitter when a new tweet is created
+        """
         d = json.loads(data)
 
         if 'text' in d:
@@ -19,6 +29,10 @@ class Listener(tweepy.streaming.StreamListener):
         return True
 
     def on_error(self, code):
+        """
+        Called by tweepy when an error happened
+        420 is a special error code, see the details below
+        """
         log("Error code: {}".format(code))
 
         if code == 420:
@@ -31,6 +45,9 @@ class Listener(tweepy.streaming.StreamListener):
 
 
 def process_tweet(d, from_stream):
+    """
+    General function to process the dictionary returned by both the search and the stream API
+    """
     tweet_id = d['id']
     text = d['text']
     stamp = datetime.datetime.strptime(d['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
@@ -44,6 +61,10 @@ def process_tweet(d, from_stream):
 
 
 def listen_to(track=None, locations=None):
+    """
+    Connects to Twitter API and starts the streaming listener with the given params
+    Runs continuously while user presses Ctrl+C or Ctrl+Z
+    """
     auth = connect()
 
     log("Initializing streaming API...")
@@ -52,6 +73,10 @@ def listen_to(track=None, locations=None):
 
 
 def search(q=None, geocode=None):
+    """
+    Connects to Twitter API and searches by using the parameters
+    Gets the results, saves to database, and quits
+    """
     auth = connect()
     api = tweepy.API(auth)
     results = api.search(q=q, geocode=geocode)
@@ -62,6 +87,9 @@ def search(q=None, geocode=None):
 
 
 def connect():
+    """
+    Connects to Twitter services by using the tokens and keys
+    """
     log("Connecting to Twitter...")
     auth = tweepy.OAuthHandler(
         config.TW_CONSUMER_KEY,

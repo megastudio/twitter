@@ -1,9 +1,14 @@
+"""
+Trivial helper function to print the messages to stdout and
+to save to a log file too
+"""
+
 import datetime
 import os
 
 
 LOG_FOLDER = 'log'
-LOG_PATH = os.path.join(LOG_FOLDER, 'twitter_stream.log')
+LOG_PATH = os.path.join(LOG_FOLDER, 'twitter.log')
 
 
 if not os.path.exists(LOG_FOLDER):

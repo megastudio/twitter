@@ -1,3 +1,16 @@
+"""
+Uses SQLAlchemy to save the tweets into an SQLite database
+
+There is only one table, called 'tweets'. The fields:
+- id: primary key
+- stamp: the publishing timestamp of the tweet
+- tweet_id: the ID of the tweet in Twitter's database
+- user_id: the ID of the user, the name can change, the ID is not
+- text: the tweet text
+- from_stream: True if we got it from calling the stream API
+               False if we got it from search API
+"""
+
 import os
 
 from sqlalchemy import create_engine
@@ -29,6 +42,9 @@ class Tweet(Base):
 
 
 def init_session():
+    """
+    Initializes the session by creating the database if not exists
+    """
     engine = create_engine('sqlite:///'+DB_PATH)
 
     if not os.path.exists(DB_PATH):
@@ -46,6 +62,10 @@ def init_session():
 
 
 def add_tweet(stamp, tweet_id, user_id, text, from_stream):
+    """
+    Saves the tweet into the table if the tweet is no exists yet
+    No need to update because the tweets can't change
+    """
     if not tweet_exists(tweet_id):
         tweet = Tweet(
             stamp=stamp,
@@ -59,6 +79,9 @@ def add_tweet(stamp, tweet_id, user_id, text, from_stream):
 
 
 def tweet_exists(tweet_id):
+    """
+    Uses Twitter's ID
+    """
     row = session.query(Tweet).filter(Tweet.tweet_id==tweet_id).first()
     return bool(row)
 
